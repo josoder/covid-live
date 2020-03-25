@@ -3,7 +3,7 @@
 Covid-live is an experimental project using spring-boot reactive to display covid-19 stats.
 <br>
 
-##v1: basic setup <br>
+## v1: basic setup <br>
 v1. is only a basic setup.
 The endpoints returns data directly from the source API without doing anything with the data.  
  
@@ -11,9 +11,10 @@ The endpoints returns data directly from the source API without doing anything w
  router DSL </li>
 <br>
 <li> Frontend, Angular 9 (nothing implemented yet) </li>
+<br>
 
 
-####API
+## API
 ```/stats/``` : get the global total infected, <br> 
 ```/stats/countries``` : get information per country, <br>
 ```/stats/countries/{country}``` : get info for the given country
