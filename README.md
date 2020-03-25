@@ -10,7 +10,7 @@ The endpoints returns data directly from the source API without doing anything w
 <li> Backend module (spring boot with kotlin, gradle adn webflux) implemented with coroutines using 
  router DSL </li>
 <br>
-<li> Angular project (just the shell, nothing implemented yet) </li>
+<li> Frontend, Angular 9 (nothing implemented yet) </li>
 
 
 ####API
