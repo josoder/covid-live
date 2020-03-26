@@ -1,0 +1,19 @@
+version: "3"
+services:
+  mongo:
+    build:
+      context: mongo-docker
+      dockerfile: Dockerfile
+    image: "mongodb"
+    hostname: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: c19_db
+
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:
+    driver: local
