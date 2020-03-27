@@ -7,7 +7,7 @@ Covid-live is an experimental project using spring-boot reactive to display covi
 v1. is only a basic setup.
 The endpoints returns data directly from the source API without doing anything with the data.  
  
-<li> Backend module (spring boot with kotlin, gradle adn webflux) implemented with coroutines using 
+<li> Backend module (spring boot with kotlin, gradle, mongodb and webflux) implemented with coroutines using 
  router DSL </li>
 <br>
 <li> Frontend, Angular 9 (nothing implemented yet) </li>
@@ -17,7 +17,8 @@ The endpoints returns data directly from the source API without doing anything w
 ## API
 ```/stats/``` : get the global total infected, <br> 
 ```/stats/countries``` : get information per country, <br>
-```/stats/countries/{country}``` : get info for the given country
+```/stats/countries/{country}``` : get info for the given country <br>
+```/stats/watch/total``` : streams total stats
 
 source: 
 https://github.com/NovelCOVID/API

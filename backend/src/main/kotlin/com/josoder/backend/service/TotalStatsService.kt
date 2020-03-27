@@ -2,7 +2,9 @@ package com.josoder.backend.service
 
 import com.josoder.backend.repository.StatsRemoteRepository
 import com.josoder.backend.repository.TotalStatsMongoRepository
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.reactive.awaitSingle
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -20,14 +22,14 @@ class TotalStatsService(private val totalStatsMongoRepository: TotalStatsMongoRe
     }
 
     @Scheduled(fixedRate = 1_000)
-    fun getTotalStats() = runBlocking {
+    fun getTotalStats() = GlobalScope.launch {
         val stats = totalStatsRemoteRepository.getCurrentTotal()
 
         LOG.info("new stats fetched at ${LocalDateTime.now()}:  $stats")
         LOG.info("stats was updated at: ${Instant.ofEpochMilli(stats.updated)
                 .atZone(ZoneId.systemDefault())}")
 
-        totalStatsMongoRepository.save(stats.convertToEntity())
+        totalStatsMongoRepository.insert(stats.convertToEntity()).awaitSingle()
     }
 
     @ExceptionHandler(WebClientResponseException::class)

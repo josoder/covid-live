@@ -1,15 +1,13 @@
 package com.josoder.backend.repository
 
+import com.josoder.backend.Constants.Companion.COUNTRIES
+import com.josoder.backend.model.TotalStatsDto
 import kotlinx.coroutines.flow.asFlow
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.awaitExchange
-import com.josoder.backend.Constants.Companion.COUNTRIES
-import com.josoder.backend.model.TotalStats
-import com.josoder.backend.model.TotalStatsDto
-import org.springframework.http.MediaType
-import org.springframework.http.MediaType.*
 
 @Repository
 class StatsRemoteRepository(private val webClient: WebClient) {
