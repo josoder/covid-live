@@ -21,7 +21,7 @@ class TotalStatsService(private val totalStatsMongoRepository: TotalStatsMongoRe
         val LOG = LoggerFactory.getLogger(this::class.java)
     }
 
-    @Scheduled(fixedRate = 1_000)
+    @Scheduled(fixedRate = 10 * (60 * 1000))
     fun getTotalStats() = GlobalScope.launch {
         val stats = totalStatsRemoteRepository.getCurrentTotal()
 

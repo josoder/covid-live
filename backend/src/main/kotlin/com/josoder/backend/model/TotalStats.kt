@@ -9,12 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "totalstats")
 class TotalStats(val cases: Long,
                  val deaths: Long,
+                 val recovered: Long,
+                 val active: Long,
                  val updated: Long)
 
 data class TotalStatsDto(val cases: Long,
                          val deaths: Long,
+                         val recovered: Long,
+                         val active: Long,
                          val updated: Long) {
     fun convertToEntity() =
-            TotalStats(cases = this.cases, deaths = this.deaths, updated = this.updated)
+            TotalStats(cases = this.cases, deaths = this.deaths, recovered = this.recovered, active = this.active,
+                    updated = this.updated)
 
 }

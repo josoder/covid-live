@@ -13,6 +13,9 @@ import org.springframework.data.mongodb.core.CollectionOptions
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.stereotype.Component
+import org.springframework.web.reactive.config.CorsRegistry
+import org.springframework.web.reactive.config.EnableWebFlux
+import org.springframework.web.reactive.config.WebFluxConfigurer
 import org.springframework.web.reactive.function.client.WebClient
 
 @SpringBootApplication
@@ -27,6 +30,16 @@ fun main(args: Array<String>) {
 class Config {
     @Bean
     fun webClient() = WebClient.create()
+}
+
+@Configuration
+@EnableWebFlux
+class CorsGlobalConfig: WebFluxConfigurer {
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:4200")
+                .allowedMethods("*")
+    }
 }
 
 @Component
