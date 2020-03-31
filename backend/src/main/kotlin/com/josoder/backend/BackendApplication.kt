@@ -34,7 +34,7 @@ class Config {
 
 @Configuration
 @EnableWebFlux
-class CorsGlobalConfig: WebFluxConfigurer {
+class CorsGlobalConfig : WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:4200")
