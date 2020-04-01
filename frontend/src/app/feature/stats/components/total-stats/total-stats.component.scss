@@ -1,4 +1,22 @@
 .content {
   width: 100%;
-  height: 350px;
+  height: 200px;
+}
+
+.updated {
+  float: right;
+}
+
+::ng-deep .item-value {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+}
+
+::ng-deep .total-label {
+  margin-top: 8px !important;
+  margin-left: 4px !important;
+}
+
+::ng-deep .item-percent.ng-star-inserted {
+  margin-top: 10px;
 }

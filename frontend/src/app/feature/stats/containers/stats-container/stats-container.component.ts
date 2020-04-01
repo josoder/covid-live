@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TotalStats } from '../../model/total-stats';
 import { StatsFacade } from '../../facade/stats-facade';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-stats-container',
@@ -12,18 +12,19 @@ export class StatsContainerComponent implements OnInit, OnDestroy {
 
   totalStats: TotalStats;
   subscriptions: Subscription[] = [];
+  totalStream$: Observable<TotalStats>;
 
   constructor(private statsFacade: StatsFacade) {
   }
 
   ngOnInit(): void {
-    this.statsFacade.getCurrentTotal().subscribe(stats => {
-      this.totalStats = stats;
-    });
+    this.totalStream$ = this.statsFacade.getCurrentTotalStream();
 
-    this.subscriptions.push(this.statsFacade.getTotalStatsStream().subscribe(stats => {
-      this.totalStats = stats;
-    }));
+    // this.subscriptions.push(this.statsFacade.getCurrentTotalStream().subscribe(s => {
+    //     this.totalStats = s;
+    //     console.log(s);
+    //   }
+    // ));
   }
 
   ngOnDestroy(): void {

@@ -1,85 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-
-export const exampleData = [
-  {
-    "name": "Infected",
-    "series": [
-      {
-        "name": "23/3 13.30",
-        "value": 23
-      },
-      {
-        "name": "23/3 13.35",
-        "value": 100
-      },
-      {
-        "name": "24/3 13.45",
-        "value": 200
-      },
-    ]
-  },
-  {
-    "name": "Deaths",
-    "series": [
-      {
-        "name": "23/3 13.30",
-        "value": 5
-      },
-      {
-        "name": "23/3 13.35",
-        "value": 25
-      },
-      {
-        "name": "24/3 13.45",
-        "value": 110
-      },
-    ]
-  },
-  {
-    "name": "Recovered",
-    "series": [
-      {
-        "name": "23/3 13.30",
-        "value": 10
-      },
-      {
-        "name": "23/3 13.35",
-        "value": 50
-      },
-      {
-        "name": "24/3 13.45",
-        "value": 210
-      },
-    ]
-  }
-];
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { TotalStats } from '../../model/total-stats';
 
 @Component({
   selector: 'app-total-stats',
   templateUrl: './total-stats.component.html',
   styleUrls: ['./total-stats.component.scss']
 })
-export class TotalStatsComponent implements OnInit {
-  exampleData = exampleData;
+export class TotalStatsComponent implements OnInit, OnDestroy {
+  exampleData: any[];
+  subscriptions: Subscription[] = [];
+  totalStats: TotalStats;
+
+  @Input() totalStats$: Observable<TotalStats>;
 
   // options
-  legend: boolean = true;
-  showLabels: boolean = true;
-  animations: boolean = true;
-  xAxis: boolean = true;
-  yAxis: boolean = true;
-  showYAxisLabel: boolean = true;
-  showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Date';
-  yAxisLabel: string = 'Cases';
-  timeline: boolean = true;
+  gradient = false;
+  showLegend = true;
+  showLabels = true;
+  isDoughnut = false;
 
   colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['#a40000', '#8821e4', '#cf323a']
   };
 
   constructor() {
-    Object.assign(this, {exampleData});
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(this.totalStats$.subscribe(stats => {
+      this.totalStats = stats;
+      this.exampleData = Object.keys(stats).filter(k => k !== 'updated' && k !== 'cases')
+        .map(key => {
+        return {name: key, value: stats[key]};
+      });
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   onSelect(data): void {
@@ -94,7 +53,5 @@ export class TotalStatsComponent implements OnInit {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
-  ngOnInit(): void {
-  }
 
 }

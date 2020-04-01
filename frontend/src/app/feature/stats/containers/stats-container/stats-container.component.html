@@ -1,17 +1,12 @@
 <h2>Stats</h2>
-<div *ngIf="totalStats">
-  <h3>
-    <span>Cases: {{ totalStats.cases }} </span>
-    <span>Deaths: {{ totalStats.deaths }} </span>
-    <span>Recovered: {{ totalStats.recovered }} </span>
-    <span>Active: {{ totalStats.active }} </span>
-  </h3>
-  <span>updated {{ totalStats.updated | date : 'medium' : '+2' }}</span>
+<div>
+<!--  <span>updated {{ (totalStream$ | async).updated | date : 'medium' : '+2' }}</span>-->
+  <app-total-stats [totalStats$]="totalStream$"></app-total-stats>
 </div>
 
 <mat-divider></mat-divider>
 
-<app-total-stats></app-total-stats>
+
 
 <mat-divider></mat-divider>
 
