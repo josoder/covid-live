@@ -16,12 +16,9 @@ export class TotalStatsComponent implements OnInit, OnDestroy {
 
   // options
   gradient = false;
-  showLegend = true;
-  showLabels = true;
-  isDoughnut = false;
 
   colorScheme = {
-    domain: ['#a40000', '#8821e4', '#cf323a']
+    domain: ['#a40000', '#4de44a', '#0c4aed']
   };
 
   constructor() {

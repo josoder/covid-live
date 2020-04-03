@@ -10,7 +10,6 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class StatsContainerComponent implements OnInit, OnDestroy {
 
-  totalStats: TotalStats;
   subscriptions: Subscription[] = [];
   totalStream$: Observable<TotalStats>;
 
@@ -19,12 +18,6 @@ export class StatsContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.totalStream$ = this.statsFacade.getCurrentTotalStream();
-
-    // this.subscriptions.push(this.statsFacade.getCurrentTotalStream().subscribe(s => {
-    //     this.totalStats = s;
-    //     console.log(s);
-    //   }
-    // ));
   }
 
   ngOnDestroy(): void {

@@ -2,10 +2,10 @@
 
 <mat-drawer-container>
   <mat-drawer mode="side" [opened]="sideBarOpened">
-    <app-sidebar></app-sidebar>
+    <app-sidebar [countryStatsInput$]="countryStats$" (countryClickedEmitter)="countrySelected($event)"></app-sidebar>
   </mat-drawer>
   <mat-drawer-content>
-    <router-outlet></router-outlet>
+    <app-stats-container></app-stats-container>
   </mat-drawer-content>
 </mat-drawer-container>
 

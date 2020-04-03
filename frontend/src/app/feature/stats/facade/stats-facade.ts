@@ -5,6 +5,7 @@ import { StatsService } from '../service/stats.service';
 import { SSEService } from '../../../core/services/sse/sse.service';
 import { environment } from '../../../../environments/environment';
 import { map } from 'rxjs/operators';
+import { CountryStats } from '../model/country-stats';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class StatsFacade {
   constructor(private statsService: StatsService,
               private sseService: SSEService) {
   }
+
+  private behaviourSubject: BehaviorSubject<CountryStats> = new BehaviorSubject<CountryStats>(null);
 
   getCurrentTotalStream(): Observable<TotalStats> {
     return merge(this.statsService.getCurrentTotal(), this.getTotalStatsStream());
@@ -23,5 +26,17 @@ export class StatsFacade {
       .pipe(
         map(event => JSON.parse(event.data) as TotalStats),
       );
+  }
+
+  getCountriesStats(): Observable<CountryStats[]> {
+    return this.statsService.getCurrentTotalCountries();
+  }
+
+  getActiveCountryStats(): Observable<CountryStats> {
+    return this.behaviourSubject.asObservable();
+  }
+
+  setActiveCountryStats(countryStats: CountryStats) {
+    this.behaviourSubject.next(countryStats);
   }
 }

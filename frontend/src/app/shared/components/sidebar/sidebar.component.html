@@ -1,8 +1,3 @@
-<mat-nav-list>
-
-
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/stats">Stats</a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/news">News</a>
-
-
+<mat-nav-list *ngFor="let stats of countryStatsInput$ | async as list">
+  <a mat-list-item (click)="onClicked(stats)">{{ stats.country }} {{ stats.cases }}</a>
 </mat-nav-list>

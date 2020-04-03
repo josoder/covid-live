@@ -1,0 +1,15 @@
+<div *ngIf="activeCountry$ | async; let stats">
+    <h2>{{ stats.country }}</h2>
+
+  <h3>Total: {{stats.cases}}</h3>
+  <mat-grid-list cols="6" rowHeight="100px" gutterSize="10">
+    <mat-grid-tile colspan="3"> Active: {{ stats.active }}</mat-grid-tile>
+    <mat-grid-tile colspan="3"> Recovered: {{ stats.recovered }}</mat-grid-tile>
+    <mat-grid-tile colspan="2"> Total cases: {{ stats.cases }}</mat-grid-tile>
+    <mat-grid-tile colspan="2"> Cases today: {{ stats.todayCases }}</mat-grid-tile>
+    <mat-grid-tile colspan="2"> Cases per one million: {{ stats.casesPerOneMillion }}</mat-grid-tile>
+    <mat-grid-tile colspan="2"> Total deaths: {{ stats.deaths }}</mat-grid-tile>
+    <mat-grid-tile colspan="2"> Deaths today: {{ stats.todayDeaths }}</mat-grid-tile>
+    <mat-grid-tile colspan="2"> Deaths per one million : {{ stats.deathsPerOneMillion }}</mat-grid-tile>
+  </mat-grid-list>
+</div>
