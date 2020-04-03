@@ -12,10 +12,10 @@ Covid-live is a reactive fullstack POC, that displays live COVID-19 stats.
 ![v1_pic](/doc/v1_covid.png)
 
 ### Implementation
-<li> Backend module (spring boot with kotlin, gradle, mongodb and webflux) implemented with coroutines using 
+<li> Backend module: spring boot with kotlin, gradle, mongodb and webflux. Implemented with coroutines using 
  router DSL </li>
 <br>
-<li> Frontend, Angular 9 </li>
+<li> Frontend: Angular 9 + angular material and ngx charts </li>
 <br>
 
 ### Setup
