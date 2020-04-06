@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
   }
 
   countrySelected($event: CountryStats) {
-    console.log($event);
     this.statsFacade.setActiveCountryStats($event);
   }
 

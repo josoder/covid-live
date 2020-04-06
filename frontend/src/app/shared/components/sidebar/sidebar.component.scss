@@ -1,0 +1,15 @@
+.search-icon {
+  float: right;
+  margin-top: -20px;
+  color: cadetblue;
+}
+
+.search-field {
+  width: 90%;
+  margin-left: 10px;
+  color: cadetblue;
+}
+
+::ng-deep .mat-form-field-underline {
+  background-color: rgb(220, 220, 220) !important;
+}

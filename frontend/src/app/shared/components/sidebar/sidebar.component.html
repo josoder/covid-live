@@ -1,3 +1,22 @@
-<mat-nav-list *ngFor="let stats of countryStatsInput$ | async as list">
-  <a mat-list-item (click)="onClicked(stats)">{{ stats.country }} {{ stats.cases }}</a>
-</mat-nav-list>
+<div *ngIf="countryStatsInput$ | async; let countries">
+  <form>
+    <mat-form-field class="search-field">
+      <input type="text"
+             matInput
+             [formControl]="countryControl"
+             [matAutocomplete]="auto">
+      <mat-icon class="search-icon">search</mat-icon>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let country of filteredCountries | async"
+                    [value]="country.country"
+                    (onSelectionChange)="countrySelected(country)">
+          {{country.country}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <mat-nav-list *ngFor="let country of countries">
+    <a mat-list-item (click)="countrySelected(country)">{{ country.country }} {{ country.cases }}</a>
+  </mat-nav-list>
+</div>
+
