@@ -1,6 +1,7 @@
 package com.josoder.backend.repository
 
 import com.josoder.backend.Constants.Companion.COUNTRIES
+import com.josoder.backend.model.CountryStatsDTO
 import com.josoder.backend.model.TotalStatsDto
 import kotlinx.coroutines.flow.asFlow
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -25,6 +26,11 @@ class StatsRemoteRepository(private val webClient: WebClient) {
             webClient.get()
                     .uri("$ROOT_URL/$COUNTRIES")
                     .awaitExchange().awaitBody<List<Map<String, Any>>>().asFlow()
+
+    suspend fun getCurrentStatsCountries() =
+            webClient.get()
+                    .uri("$ROOT_URL/$COUNTRIES")
+                    .awaitExchange().awaitBody<List<CountryStatsDTO>>()
 
     suspend fun getCurrentTotalInCountry(country: String) =
             webClient.get()

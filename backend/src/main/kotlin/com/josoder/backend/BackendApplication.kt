@@ -1,7 +1,7 @@
 package com.josoder.backend
 
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.reactive.asFlow
+import com.josoder.backend.model.CountryStats
+import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationStartedEvent
@@ -17,6 +17,7 @@ import org.springframework.web.reactive.config.CorsRegistry
 import org.springframework.web.reactive.config.EnableWebFlux
 import org.springframework.web.reactive.config.WebFluxConfigurer
 import org.springframework.web.reactive.function.client.WebClient
+import java.time.Duration
 
 @SpringBootApplication
 @EnableScheduling
@@ -46,13 +47,15 @@ class CorsGlobalConfig : WebFluxConfigurer {
 class DbSetup(val reactiveMongoTemplate: ReactiveMongoTemplate) {
     @EventListener(ApplicationStartedEvent::class)
     fun init() = runBlocking {
-        reactiveMongoTemplate.collectionExists("totalstats").asFlow().collect {
-            if (!it) {
-                reactiveMongoTemplate.createCollection("totalstats",
-                        CollectionOptions.empty().capped().size(1024).maxDocuments(10_000))
-            }
-        }
-    }
+        reactiveMongoTemplate.dropCollection(CountryStats::class.java)
+                .retryBackoff(10, Duration.ofMillis(100))
+                .awaitFirstOrNull()
 
+        reactiveMongoTemplate.createCollection(CountryStats::class.java,
+                CollectionOptions.empty()
+                        .capped()
+                        .size(100_000)
+                        .maxDocuments(500)).awaitFirstOrNull()
+    }
 }
 

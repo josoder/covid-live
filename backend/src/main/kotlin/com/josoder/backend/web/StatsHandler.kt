@@ -1,7 +1,9 @@
 package com.josoder.backend.web
 
+import com.josoder.backend.repository.CountryStatsMongoRepository
 import com.josoder.backend.repository.StatsRemoteRepository
 import com.josoder.backend.service.StatsWatch
+import kotlinx.coroutines.reactive.asFlow
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse.ok
@@ -11,7 +13,8 @@ import org.springframework.web.reactive.function.server.sse
 
 @Component
 class StatsHandler(private val repository: StatsRemoteRepository,
-                   private val statsWatch: StatsWatch) {
+                   private val statsWatch: StatsWatch,
+                   private val countryRepo: CountryStatsMongoRepository) {
 
     suspend fun getCurrentTotal(request: ServerRequest) =
             ok().bodyValueAndAwait(repository.getCurrentTotal())
@@ -24,4 +27,7 @@ class StatsHandler(private val repository: StatsRemoteRepository,
 
     suspend fun watchTotalStats(request: ServerRequest) =
             ok().sse().bodyAndAwait(statsWatch.getTotalStatsChangeStream())
+
+    suspend fun watchCountries(request: ServerRequest) =
+            ok().sse().bodyAndAwait(countryRepo.findAllBy().asFlow())
 }

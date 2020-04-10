@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.countryStats$ = this.statsFacade.getCountriesStats()
+    this.countryStats$ = this.statsFacade.getCountryStatsStream()
       .pipe(
         map(countries => {
           return countries.sort((statA, statB) => statB.cases - statA.cases);

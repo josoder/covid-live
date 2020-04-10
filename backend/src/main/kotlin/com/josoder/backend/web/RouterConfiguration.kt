@@ -15,6 +15,7 @@ class RouterConfiguration {
             GET("/$COUNTRIES", statsHandler::getCurrentAllCountries)
             GET("/$COUNTRIES/{country}", statsHandler::getCurrentInCountry)
             GET("/watch/total", statsHandler::watchTotalStats)
+            GET("/watch/countries", statsHandler::watchCountries)
         }
     }
 }

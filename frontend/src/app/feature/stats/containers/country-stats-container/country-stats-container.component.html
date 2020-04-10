@@ -12,4 +12,6 @@
     <mat-grid-tile colspan="2"> Deaths today: {{ stats.todayDeaths }}</mat-grid-tile>
     <mat-grid-tile colspan="2"> Deaths per one million : {{ stats.deathsPerOneMillion }}</mat-grid-tile>
   </mat-grid-list>
+  <br>
+  <span>Updated at: {{ stats.updated | date : 'medium' : '+2' }}</span>
 </div>

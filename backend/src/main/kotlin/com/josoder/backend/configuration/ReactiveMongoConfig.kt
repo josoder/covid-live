@@ -22,4 +22,11 @@ class ReactiveMongoConfig(@Value("\${spring.data.mongodb.database}") private val
 
     override fun reactiveMongoTemplate() =
             ReactiveMongoTemplate(reactiveMongoClient(), databaseName)
+
+    override fun getInitialEntitySet(): MutableSet<Class<*>> {
+        return super.getInitialEntitySet()
+                .filter {
+                    !it.name.contains("CountryStats")
+                }.toMutableSet()
+    }
 }

@@ -4,7 +4,7 @@ import { TotalStats } from '../model/total-stats';
 import { StatsService } from '../service/stats.service';
 import { SSEService } from '../../../core/services/sse/sse.service';
 import { environment } from '../../../../environments/environment';
-import { map } from 'rxjs/operators';
+import { map, scan } from 'rxjs/operators';
 import { CountryStats } from '../model/country-stats';
 
 @Injectable({
@@ -26,6 +26,24 @@ export class StatsFacade {
       .pipe(
         map(event => JSON.parse(event.data) as TotalStats),
       );
+  }
+
+  getCountryStatsStream(): Observable<CountryStats[]> {
+    return this.sseService.getSSEStream(environment.api.root + 'watch/countries')
+      .pipe(
+        map(event => JSON.parse(event.data) as CountryStats),
+        scan(this.updateCountryStats, [])
+      );
+  }
+
+  private updateCountryStats(acc: CountryStats[], current: CountryStats): CountryStats[] {
+    const existent = acc.find(x => x.country === current.country);
+    if (existent) {
+      acc[acc.indexOf(current)] = current;
+    } else {
+      acc.push(current);
+    }
+    return acc;
   }
 
   getCountriesStats(): Observable<CountryStats[]> {
