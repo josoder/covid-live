@@ -1,4 +1,5 @@
 export class CountryStats {
+  public static readonly GLOBAL = 'global';
   country: string;
   cases: number;
   todayCases: number;

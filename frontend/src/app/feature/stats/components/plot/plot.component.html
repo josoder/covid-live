@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Historical</h1>
+<div mat-dialog-content class="content">
+  <mat-dialog-actions class="toolbar-actions">
+    <mat-form-field>
+      <mat-label>Plots</mat-label>
+      <mat-select [formControl]="plotsControl" multiple>
+        <mat-option *ngFor="let plot of plots" [value]="plot">{{plot}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-actions>
+  <ngx-charts-line-chart *ngIf="stats"
+    [view]="view"
+    [scheme]="colorScheme"
+    [legend]="legend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [timeline]="timeline"
+    [results]="stats"
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)">
+  </ngx-charts-line-chart>
+</div>
+<div mat-dialog-actions>
+  <button mat-dialog-close="">close</button>
+</div>

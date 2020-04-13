@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api: {
-    root: 'http://localhost:8080/stats/'
+    root: 'http://localhost:8080/stats/',
+    historical: 'historical'
   }
 };
 

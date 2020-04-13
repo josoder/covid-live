@@ -9,13 +9,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { CountryStatsContainerComponent } from './containers/country-stats-container/country-stats-container.component';
 import { AppRoutingModule } from '../../app-routing.module';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { PlotComponent } from './components/plot/plot.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     StatsContainerComponent,
     TotalStatsComponent,
-    CountryStatsContainerComponent
+    CountryStatsContainerComponent,
+    PlotComponent
   ],
   exports: [
     StatsContainerComponent
@@ -26,7 +33,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
     NgxChartsModule,
     HttpClientModule,
     AppRoutingModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ]
 })
 export class StatsModule {

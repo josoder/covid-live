@@ -1,6 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { TotalStats } from '../../model/total-stats';
+import { MatDialog } from '@angular/material/dialog';
+import { PlotComponent } from '../plot/plot.component';
+import { HistoricalStats } from '../../model/historical-stats';
 
 @Component({
   selector: 'app-total-stats',
@@ -8,29 +11,29 @@ import { TotalStats } from '../../model/total-stats';
   styleUrls: ['./total-stats.component.scss']
 })
 export class TotalStatsComponent implements OnInit, OnDestroy {
-  exampleData: any[];
+  data: any[];
   subscriptions: Subscription[] = [];
   totalStats: TotalStats;
 
   @Input() totalStats$: Observable<TotalStats>;
+  @Input() historicalStats$: Observable<HistoricalStats>;
 
-  // options
   gradient = false;
 
   colorScheme = {
     domain: ['#a40000', '#4de44a', '#0c4aed']
   };
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.subscriptions.push(this.totalStats$.subscribe(stats => {
       this.totalStats = stats;
-      this.exampleData = Object.keys(stats).filter(k => k !== 'updated' && k !== 'cases')
+      this.data = Object.keys(stats).filter(k => k !== 'updated' && k !== 'cases')
         .map(key => {
-        return {name: key, value: stats[key]};
-      });
+          return {name: key, value: stats[key]};
+        });
     }));
   }
 
@@ -39,6 +42,13 @@ export class TotalStatsComponent implements OnInit, OnDestroy {
   }
 
   onSelect(data): void {
+    this.dialog.open(PlotComponent, {
+      data: {
+        initialCountry: null,
+        initialPlot: data.name,
+      }
+    });
+
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
 
@@ -49,6 +59,4 @@ export class TotalStatsComponent implements OnInit, OnDestroy {
   onDeactivate(data): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
-
-
 }

@@ -1,7 +1,7 @@
-<div class="content" *ngIf="exampleData">
+<div class="content" *ngIf="data">
   <ngx-charts-advanced-pie-chart
     [scheme]="colorScheme"
-    [results]="exampleData"
+    [results]="data"
     [gradient]="gradient"
     (select)="onSelect($event)"
     (activate)="onActivate($event)"

@@ -30,4 +30,10 @@ class StatsHandler(private val repository: StatsRemoteRepository,
 
     suspend fun watchCountries(request: ServerRequest) =
             ok().sse().bodyAndAwait(countryRepo.findAllBy().asFlow())
+
+    suspend fun getTotalHistorical(request: ServerRequest) =
+            ok().bodyValueAndAwait(repository.getHistoricalTotal())
+
+    suspend fun getHistoricalCountry(request: ServerRequest) =
+            repository.getHistoricalStats(request.pathVariable("country")).let { ok().bodyValueAndAwait(it) }
 }

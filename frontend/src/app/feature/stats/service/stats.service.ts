@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TotalStats } from '../model/total-stats';
 import { environment } from '../../../../environments/environment';
 import { CountryStats } from '../model/country-stats';
+import { HistoricalStats } from '../model/historical-stats';
 
 
 @Injectable({
@@ -20,5 +21,15 @@ export class StatsService {
 
   getCurrentTotalCountries(): Observable<CountryStats[]> {
     return this.http.get<CountryStats[]>(environment.api.root + 'countries');
+  }
+
+  getHistorical(country?: string): Observable<HistoricalStats> {
+    let url = environment.api.root + environment.api.historical;
+
+    if (country) {
+      url += country;
+    }
+
+    return this.http.get<HistoricalStats>(url);
   }
 }

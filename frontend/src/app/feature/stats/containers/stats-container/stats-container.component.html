@@ -1,6 +1,8 @@
 <h2>Global Stats</h2>
 <div>
-  <app-total-stats [totalStats$]="totalStream$"></app-total-stats>
+  <app-total-stats
+    [totalStats$]="totalStream$"
+    [historicalStats$]="historicalTotal$"></app-total-stats>
 </div>
 <mat-divider></mat-divider>
 <router-outlet></router-outlet>

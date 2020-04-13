@@ -6,6 +6,7 @@ import { SSEService } from '../../../core/services/sse/sse.service';
 import { environment } from '../../../../environments/environment';
 import { map, scan } from 'rxjs/operators';
 import { CountryStats } from '../model/country-stats';
+import { HistoricalStats } from '../model/historical-stats';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,10 @@ export class StatsFacade {
       acc.push(current);
     }
     return acc;
+  }
+
+  getHistoricalStats(country?: string): Observable<HistoricalStats> {
+    return this.statsService.getHistorical(country);
   }
 
   getCountriesStats(): Observable<CountryStats[]> {

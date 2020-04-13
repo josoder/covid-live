@@ -2,6 +2,8 @@ package com.josoder.backend.repository
 
 import com.josoder.backend.Constants.Companion.COUNTRIES
 import com.josoder.backend.model.CountryStatsDTO
+import com.josoder.backend.model.HistoricalCountryStatsDTO
+import com.josoder.backend.model.HistoricalStats
 import com.josoder.backend.model.TotalStatsDto
 import kotlinx.coroutines.flow.asFlow
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -36,4 +38,19 @@ class StatsRemoteRepository(private val webClient: WebClient) {
             webClient.get()
                     .uri("$ROOT_URL/$COUNTRIES/$country")
                     .awaitExchange().awaitBody<Map<String, Any>>()
+
+    suspend fun getHistoricalStats(country: String) =
+            webClient.get()
+                    .uri("$ROOT_URL/v2/historical/${country}")
+                    .awaitExchange().awaitBody<HistoricalCountryStatsDTO>().timeline
+
+    suspend fun getHistoricalTotal() =
+            webClient.get()
+                    .uri("$ROOT_URL/v2/historical/all")
+                    .awaitExchange().awaitBody<HistoricalStats>()
+
+    suspend fun getHistoricalAllCountries() =
+            webClient.get()
+                    .uri("$ROOT_URL/v2/historical")
+                    .awaitExchange().awaitBody<List<HistoricalCountryStatsDTO>>()
 }
