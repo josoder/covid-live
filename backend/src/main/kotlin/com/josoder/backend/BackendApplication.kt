@@ -38,7 +38,7 @@ class Config {
 class CorsGlobalConfig : WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
+                .allowedOrigins("http://localhost:4200", "http://localhost:80", "http://localhost")
                 .allowedMethods("*")
     }
 }
