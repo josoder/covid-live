@@ -1,0 +1,6 @@
+secretGenerator:
+- name: stats-mongodb
+  literals:
+  - root-password=password
+resources:
+- mongodb-service.yaml

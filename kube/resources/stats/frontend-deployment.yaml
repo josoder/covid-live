@@ -1,0 +1,43 @@
+# stats frontend service
+apiVersion: v1
+kind: Service
+metadata:
+  name: stats-frontend
+  labels:
+    app: stats
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      nodePort: 31000
+  selector:
+    app: stats
+    tier: frontend
+---
+# stats frontend deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-frontend
+  labels:
+    app: stats
+spec:
+  selector:
+    matchLabels:
+      app: stats
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: stats
+        tier: frontend
+    spec:
+      containers:
+        - image: josoder/stats-frontend
+          name: frontend-container
+          ports:
+          - containerPort: 80
+
+

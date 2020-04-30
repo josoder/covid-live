@@ -10,7 +10,7 @@ class RouterConfiguration {
 
     @Bean
     fun routes(statsHandler: StatsHandler) = coRouter {
-        "/stats".nest {
+        "/api/stats".nest {
             GET("/", statsHandler::getCurrentTotal)
             GET("/$COUNTRIES", statsHandler::getCurrentAllCountries)
             GET("/$COUNTRIES/{country}", statsHandler::getCurrentInCountry)

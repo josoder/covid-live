@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   api: {
-    root: 'http://localhost:8081/stats/',
+    root: `http://${window.location.hostname}:${window.location.port}/api/stats/`,
     historical: 'historical'
   }
 };

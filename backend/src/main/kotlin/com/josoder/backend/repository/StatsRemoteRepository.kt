@@ -15,7 +15,7 @@ import org.springframework.web.reactive.function.client.awaitExchange
 @Repository
 class StatsRemoteRepository(private val webClient: WebClient) {
     companion object {
-        private const val ROOT_URL = "https://corona.lmao.ninja"
+        private const val ROOT_URL = "https://corona.lmao.ninja/v2"
     }
 
     suspend fun getCurrentTotal() =
@@ -41,12 +41,12 @@ class StatsRemoteRepository(private val webClient: WebClient) {
 
     suspend fun getHistoricalStats(country: String) =
             webClient.get()
-                    .uri("$ROOT_URL/v2/historical/${country}")
+                    .uri("$ROOT_URL/historical/${country}")
                     .awaitExchange().awaitBody<HistoricalCountryStatsDTO>().timeline
 
     suspend fun getHistoricalTotal() =
             webClient.get()
-                    .uri("$ROOT_URL/v2/historical/all")
+                    .uri("$ROOT_URL/historical/all")
                     .awaitExchange().awaitBody<HistoricalStats>()
 
     suspend fun getHistoricalAllCountries() =

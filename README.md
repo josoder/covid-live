@@ -3,7 +3,6 @@
 Covid-live is a reactive fullstack POC, that displays live COVID-19 stats.
 <br>
 
-## v1
 ### Features
 <li> Live update of global stats </li>
 <li> Drilldown per country with more specifics i.e cases today, cases per million etc... </li>
@@ -18,11 +17,11 @@ Covid-live is a reactive fullstack POC, that displays live COVID-19 stats.
 <li> Frontend: Angular 9 + angular material and ngx charts </li>
 <br>
 
-### Setup
+## Run
 requirements: Angular cli, docker-compose, java 11
 
 mongodb:
-```docker-compose up -d```
+```docker-compose up mongo -d```
 <br>
 backend:
 ```./gradlew :bootRun```
@@ -30,11 +29,36 @@ backend:
 frontend:
 ```ng serve```
 
+## Docker compose
+build image for backend:
+```./gradlew jibDockerBuild --image=stats-backend```
+
+The frontend build will be handled by docker-compose
+```docker-compose up -d```
+
+Frontend will be served at: ```localhost:80/```
+<br> API: ```localhost:80/api```
+
+## Kubernetes
+Will provide more information on this setup ASAP.
+<br>
+Configuration is available under /kube
+
+#### Mongo db
+Runs a stateful set with 3 instances of mongodb replica sets.
+
+#### Frontend
+Build the image with ```/frontend/build_kube.sh```
+
+#### Backend
+
 ## API
-```/stats/``` : get the global total infected, <br> 
-```/stats/countries``` : get information per country, <br>
-```/stats/countries/{country}``` : get info for the given country <br>
-```/stats/watch/total``` : streams total stats as server sent events
+path: ```/api/stats``` 
+
+```/``` : get the global total infected, <br> 
+```/countries``` : get information per country, <br>
+```/countries/{country}``` : get info for the given country <br>
+```/watch/total``` : streams total stats as server sent events
 
 source: 
 https://github.com/NovelCOVID/API

@@ -1,21 +1,23 @@
 version: "3"
 services:
-  backend-stats:
-    image: "covid/stats/backend"
-    ports:
-    - 8081:8080
-    depends_on:
-      - mongo
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-
-  frontend-stats:
-    image: "covid/stats/frontend"
+  stats-frontend:
+    image: "stats-frontend"
     build:
       context: frontend
       dockerfile: Dockerfile
     ports:
-    - 80:80
+      - 80:80
+    depends_on:
+      - stats-backend
+
+  stats-backend:
+    image: "stats-backend"
+    ports:
+    - 8080
+    depends_on:
+      - mongo
+    environment:
+      SPRING_PROFILES_ACTIVE: compose
 
   mongo:
     build:

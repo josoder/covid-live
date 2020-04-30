@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  labels:
+    tier: mongodb
+    app: stats
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+  clusterIP: None
+  selector:
+    tier: mongodb
+    app: stats
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  labels:
+    tier: mongodb
+    replicaset: MainRepSet
+    app: stats
+spec:
+  serviceName: mongodb
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: mongodb
+      replicaset: MainRepSet
+      app: stats
+  template:
+    metadata:
+      labels:
+        tier: mongodb
+        replicaset: MainRepSet
+        app: stats
+    spec:
+      containers:
+      - image: mongo
+        name: mongod-container
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: admin
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: stats-mongodb
+              key: root-password
+        command:
+        - "numactl"
+        - "--interleave=all"
+        - "mongod"
+        - "--bind_ip"
+        - "0.0.0.0"
+        - "--replSet"
+        - "MainRepSet"
+        volumeMounts:
+        - name: mongodb-pv-claim
+          mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-pv-claim
+      labels:
+        app: stats
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi
+

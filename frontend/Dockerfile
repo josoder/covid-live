@@ -16,8 +16,11 @@ RUN ng build --prod --output-path=dist
 
 ### STAGE 2: Setup ###
 FROM nginx:1.17.9-alpine
+ARG NGINX_CONF_FILE=default.conf
+
 ## Copy our default nginx config
-ADD .nginx/default.conf /etc/nginx/conf.d/default.conf
+RUN echo "setting up nginx with the following conf file: $NGINX_CONF_FILE"
+ADD /nginx/$NGINX_CONF_FILE /etc/nginx/conf.d/default.conf
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*

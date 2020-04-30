@@ -16,7 +16,12 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.config.CorsRegistry
 import org.springframework.web.reactive.config.EnableWebFlux
 import org.springframework.web.reactive.config.WebFluxConfigurer
+import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.server.ServerWebExchange
+import org.springframework.web.server.WebFilter
+import org.springframework.web.server.WebFilterChain
+import reactor.core.publisher.Mono
 import java.time.Duration
 
 @SpringBootApplication
@@ -38,7 +43,8 @@ class Config {
 class CorsGlobalConfig : WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200", "http://localhost:80", "http://localhost")
+                .allowedOrigins("http://localhost:4200", "http://localhost:80", "http://localhost",
+                "http://stats.josoder.se:3100")
                 .allowedMethods("*")
     }
 }
@@ -59,3 +65,13 @@ class DbSetup(val reactiveMongoTemplate: ReactiveMongoTemplate) {
     }
 }
 
+/*
+ * This is needed to make sure SSE is not buffered while proxied.
+ */
+@Component
+class SSEHeaderFilter: WebFilter {
+    override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
+        exchange.response.headers.set("X-Accel-Buffering", "no")
+        return chain.filter(exchange)
+    }
+}

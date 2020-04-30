@@ -5,12 +5,20 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.61"
     kotlin("plugin.spring") version "1.3.61"
-    id("com.google.cloud.tools.jib") version "2.1.0"
+    id("com.google.cloud.tools.jib") version "2.2.0"
 }
 
 group = "com.josoder"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+jib {
+    to {
+        image = "stats-backend"
+    }
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
+    }
+}
 
 repositories {
     mavenCentral()
