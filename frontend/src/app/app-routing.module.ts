@@ -6,8 +6,7 @@ import { CountryStatsContainerComponent } from './feature/stats/containers/count
 const routes: Routes = [
   {path: '', redirectTo: 'stats', pathMatch: 'full'},
   {path: 'stats/:country', component: CountryStatsContainerComponent},
-  {path: 'stats', component: CountryStatsContainerComponent},
-  {path: 'news', loadChildren: () => import('./feature/news/news.module').then(m => m.NewsModule)}
+  {path: 'stats', component: CountryStatsContainerComponent}
 ];
 
 @NgModule({

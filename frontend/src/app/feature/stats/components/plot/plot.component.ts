@@ -13,11 +13,9 @@ import { FormControl } from '@angular/forms';
 export class PlotComponent implements OnInit {
   stats: StatsTimeSeries[] = [];
   view: any[] = [700, 300];
-  plots: string[] = ['deaths', 'cases', 'recovered'];
+  plots: string[] = ['deaths', 'cases', 'recovered', 'active'];
 
   legend = true;
-  showLabels = true;
-  animations = true;
   xAxis = true;
   yAxis = true;
   showYAxisLabel = false;

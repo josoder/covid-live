@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.awaitExchange
+import reactor.kotlin.core.publisher.toMono
 
 @Repository
 class StatsRemoteRepository(private val webClient: WebClient) {
@@ -46,8 +47,10 @@ class StatsRemoteRepository(private val webClient: WebClient) {
 
     suspend fun getHistoricalTotal() =
             webClient.get()
-                    .uri("$ROOT_URL/historical/all")
-                    .awaitExchange().awaitBody<HistoricalStats>()
+            .uri("$ROOT_URL/historical/all")
+            .awaitExchange().awaitBody<HistoricalStats>().also {
+                        it.calcActive()
+                    }
 
     suspend fun getHistoricalAllCountries() =
             webClient.get()

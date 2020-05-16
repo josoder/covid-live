@@ -48,8 +48,6 @@ export class TotalStatsComponent implements OnInit, OnDestroy {
         initialPlot: data.name,
       }
     });
-
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
 
   onActivate(data): void {
